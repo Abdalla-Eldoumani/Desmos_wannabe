@@ -1,73 +1,29 @@
-Graphing Calculator Documentation:
+# Graphing Calculator
 
-Overview:
-The Graphing Calculator project is designed to allow users to enter mathematical equations and visualize them on a graph. The application utilizes external libraries such as Plotly for graphing, numeric for creating a linear space, and mathjs for parsing and evaluating mathematical expressions.
+A small browser graphing calculator, a student project from 2023. Type one or more expressions in `x`, click Plot, and each one is drawn as a line on a pannable, zoomable graph.
 
-Structure:
-The project is divided into three sections:
-HTML - Represents the structure of the graphing calculator on the web page.
-CSS - Describes the style and design of the application components.
-JavaScript - Contains the logic behind plotting graphs and interacting with the application.
+![Screenshot of the graphing calculator](image.png)
 
-HTML Structure:
-The page contains a header displaying "Graphing Calculator".
-There is an input field where users can enter their equation.
-There are two buttons: one to add more equations and another to plot them on the graph.
-An empty div with the id "graph" is present, which will be filled with the plotted graph.
+## How it works
 
-CSS Styling:
-The styles are divided into:
-General Styles: General styles applied to the body, header, container, input sections, equation input, and buttons.
-Responsive Styles: Tailored styles for screens with a max-width of 768px. This ensures the application is mobile-friendly and looks presentable on smaller devices.
+`script.js` samples 10,000 evenly spaced x values from -1000 to 1000 with numeric.js, evaluates each expression at every point with math.js, and plots the results with Plotly. Each expression gets its own colour and legend entry, and hovering shows the point's coordinates.
 
-JavaScript Logic:
-Libraries:
-Plotly: Used for plotting the graphs.
-numeric: Provides mathematical functions. In this case, used for linear spacing.
-mathjs: Helps in compiling and evaluating mathematical expressions.
+Before evaluating, it inserts a `*` between a digit and a following letter, so `2x` becomes `2 * x` and `3sin(x)` becomes `3 * sin(x)`. Anything math.js understands works otherwise, for example `x^2 - 4`, `sin(x) / x`, or `abs(x)`. An expression that fails to parse shows an alert with its number.
 
-Functions:
-plotGraphs(equations):
-Arguments: equations - Array of string equations.
-Description: Takes in an array of equations, processes them, and plots them using the Plotly library.
-Event Listeners:
-Add Equation Button: On click, adds another input field for the user to enter an additional equation.
-Plot Button: On click, collects all the equations and plots them.
+## Run it
 
-Flow:
-The page initially displays an empty plot with X and Y axis labels.
-Users can enter equations in the input fields.
-Users can add more equations by clicking the "Add Equation" button.
-After entering their desired equations, users can click the "Plot" button.
-The equations are then plotted on the graph. If an invalid equation is provided, an alert notifies the user.
+Open `index.html` in a browser. There is no build step. Plotly, numeric.js and math.js load from CDNs, so you need an internet connection.
 
-Important Notes:
+## Usage
 
-Equation Formatting: The application automatically formats equations like 2x to 2 * x to ensure correct evaluation.
+- Enter an expression in the input box. Click **Add Equation** for more boxes.
+- Click **Plot** to draw every non-empty expression.
+- Drag to pan and scroll to zoom. The Plotly toolbar has reset and download options.
 
-Graph Range: By default, the graph is set to display x-values from -1000 to 1000.
+To change the plotted range or the number of sample points, edit the `numeric.linspace(-1000, 1000, 10000)` call at the top of `script.js`.
 
-Error Handling: If an invalid equation is entered, the application will display an error alert to the user.
+## Limitations
 
-
-External Dependencies:
-
-Plotly - Graph plotting library.
-
-numeric - Numerical mathematical functions.
-
-mathjs - Advanced math library for parsing and evaluating equations.
-
-Customization:
-Graph Range: Adjusting the range of the graph can be done by changing the parameters of numeric.linspace.
-
-Styles: All styles are present in the CSS section. Modify them for a customized look and feel.
-
-Error Messages: Customize error messages by modifying the alert statements in the JavaScript section.
-
-Conclusion:
-The Graphing Calculator project provides a seamless way for users to input multiple mathematical equations and visualize them on a graph. This documentation gives a comprehensive breakdown of the codebase and its functionality.
-
-
-
-![Alt text](image.png)
+- Only explicit functions of `x` are supported. Implicit equations such as `x^2 + y^2 = 1` and inequalities are not.
+- The range is fixed at -1000 to 1000, so the default view is very zoomed out for most functions.
+- The digit-letter rewrite also changes scientific notation, so `1e3` is read as `1 * e3` and fails.
